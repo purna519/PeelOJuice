@@ -157,11 +157,15 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',  # Local development
     'http://127.0.0.1:5173',
     'https://peel-o-juice.vercel.app',  # Vercel production
-    'https://*.vercel.app',  # Vercel deployment
-    'https://vercel.app',
-    'capacitor://localhost',  # Mobile apps
     'http://localhost',
 ]
+
+# Use regex to allow all Vercel domains and Railway domains
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",  # Any Vercel deployment
+    r"^https://.*\.up\.railway\.app$",  # Any Railway deployment
+]
+
 CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security
 
 
