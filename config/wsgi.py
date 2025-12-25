@@ -18,11 +18,11 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     import django
     django.setup()
     from django.core.management import call_command
-    print("🚀 Running migrations...")
+    print("Running migrations...")
     call_command('migrate', '--noinput')
-    print("👤 Creating default superuser...")
+    print("Creating default superuser...")
     call_command('create_default_superuser')
-    print("📁 Collecting static files...")
+    print("Collecting static files...")
     call_command('collectstatic', '--noinput')
 
 application = get_wsgi_application()
