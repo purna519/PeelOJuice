@@ -30,10 +30,12 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
 
-# CSRF trusted origins for Railway
+# CSRF trusted origins for Railway and Vercel
 CSRF_TRUSTED_ORIGINS = [
     'https://web-production-53e0c.up.railway.app',
     'https://*.up.railway.app',
+    'https://peel-o-juice.vercel.app',  # Vercel frontend
+    'https://*.vercel.app',
 ]
 
 
@@ -154,6 +156,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',  # Local development
     'http://127.0.0.1:5173',
+    'https://peel-o-juice.vercel.app',  # Vercel production
     'https://*.vercel.app',  # Vercel deployment
     'https://vercel.app',
     'capacitor://localhost',  # Mobile apps
