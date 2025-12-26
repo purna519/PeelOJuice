@@ -94,5 +94,5 @@ If you didn’t request this, please secure your account.
         message=message_map[purpose],
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[email],
-        fail_silently=True,  # Don't fail if email sending fails
+        fail_silently=False,  # Show errors in logs
     )

@@ -146,10 +146,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_TIMEOUT = 5  # Timeout after 5 seconds to prevent hanging
+EMAIL_TIMEOUT = 30  # Increase timeout to check if Gmail is just slow
 
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='peelojuice0@gmail.com')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='effa yadv dzyg hwcw')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='xkzk pddx qhrj loly')
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Juice Shop <peelojuice0@gmail.com>')
 
