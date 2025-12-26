@@ -34,12 +34,13 @@ class RegisterAPIView(APIView):
 
             user = serializer.save()
 
-            generate_email_otp(user)
+            email_otp = generate_email_otp(user)
             phone_otp = generate_phone_otp(user)
 
             return Response(
                 {
                     "message": "User registered successfully. Please check your email for OTP.",
+                    "email_otp": email_otp,  # TEMP - For testing while Gmail SMTP is being fixed
                     "phone_otp": phone_otp  # DEV ONLY - Remove in production
                 },
                 status=status.HTTP_201_CREATED
