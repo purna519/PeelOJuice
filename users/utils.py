@@ -2,6 +2,13 @@ import random
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
+from smtplib import SMTPException
+import logging
+
+# Import Brevo API email function (bypasses Railway SMTP port blocking)
+from .email_api import send_otp_email_api
+
+logger = logging.getLogger(__name__)
 
 def generate_email_otp(user):
     otp = str(random.randint(100000,999999))
@@ -15,14 +22,19 @@ def generate_email_otp(user):
         'otp_created_at',
         'is_email_verified'
     ])
+    logger.info(f"Generated email OTP for user: {user.email}")
 
+    # Use Brevo API instead of SMTP (Railway blocks SMTP ports)
     try:
-        send_otp_email(user.email, otp, purpose="verification")
+        email_sent = send_otp_email_api(user.email, otp, purpose="verification")
     except Exception as e:
-        # Log the error but don't fail registration
-        print(f"Failed to send email OTP: {e}")
-
-    return otp
+        logger.error(f"Email API error: {str(e)}")
+        email_sent = False
+    
+    if not email_sent:
+        logger.error(f"Failed to send email OTP to {user.email}")
+    
+    return otp, email_sent
 
 def generate_phone_otp(user):
     otp = str(random.randint(100000, 999999))
