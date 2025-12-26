@@ -140,16 +140,17 @@ SIMPLE_JWT = {
 }
 
 
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'peelojuice0@gmail.com'
-EMAIL_HOST_PASSWORD = 'effa yadv dzyg hwcw'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='peelojuice0@gmail.com')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='effa yadv dzyg hwcw')
 
-DEFAULT_FROM_EMAIL = 'Juice Shop <peelojuice0@gmail.com>'
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Juice Shop <peelojuice0@gmail.com>')
 
 # Frontend URL for email links
 FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
