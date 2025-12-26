@@ -172,6 +172,28 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 
 CORS_ALLOW_ALL_ORIGINS = False  # Keep this False for security
 
+# Ensure CORS headers are sent even for errors
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
