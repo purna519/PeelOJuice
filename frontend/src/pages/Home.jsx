@@ -12,17 +12,21 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (selectedBranch) {
-      loadFeaturedProducts();
-    }
+    loadFeaturedProducts();
   }, [selectedBranch]);
 
   const loadFeaturedProducts = async () => {
-    if (!selectedBranch) return;
-    
     setLoading(true);
     try {
-      const response = await api.get(`/products/branches/${selectedBranch.id}/products/`);
+      let response;
+      // If branch is selected, use branch-specific endpoint
+      // Otherwise, fallback to general juices endpoint
+      if (selectedBranch) {
+        response = await api.get(`/products/branches/${selectedBranch.id}/products/`);
+      } else {
+        response = await api.get(`/products/juices/`);
+      }
+      
       // Handle paginated response
       const productsData = response.data.results || [];
       setProducts(productsData.slice(0, 12));
