@@ -19,7 +19,18 @@ class CategoryMiniSerializer(serializers.ModelSerializer):
 
 class JuiceSerializer(serializers.ModelSerializer):
     category = CategoryMiniSerializer(read_only=True)
-    image = serializers.ImageField(use_url=True)
+    image = serializers.SerializerMethodField()
+    
+    def get_image(self, obj):
+        if obj.image:
+            # Get the image name/path
+            image_path = str(obj.image)
+            # Remove 'media/' prefix if present  
+            if image_path.startswith('media/'):
+                image_path = image_path.replace('media/', '', 1)
+            # Return proper Cloudinary URL
+            return f"https://res.cloudinary.com/dxizjczfh/image/upload/{image_path}"
+        return None
 
     class Meta:
         model = Juice
