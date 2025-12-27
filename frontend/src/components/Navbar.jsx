@@ -17,7 +17,11 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <span className="text-2xl font-bold text-black">PeelOJuice</span>
+            <span className="text-2xl font-bold">
+              <span className="text-[#F5A623]">Peel</span>
+              <span className="text-[#FF6B35]">O</span>
+              <span className="text-gray-800">JUICE</span>
+            </span>
           </Link>
 
           {/* Desktop Menu */}

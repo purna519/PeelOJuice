@@ -109,9 +109,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 import dj_database_url
 
 # Use PostgreSQL in production (Railway), SQLite in development
+# Load DATABASE_URL from .env file if present, otherwise use SQLite
+database_url = config('DATABASE_URL', default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        default=database_url,
         conn_max_age=600,
         conn_health_checks=True,
     )
@@ -204,7 +207,7 @@ CORS_ALLOW_METHODS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

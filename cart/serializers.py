@@ -5,7 +5,7 @@ from decimal import Decimal
 
 class CartItemSerializer(serializers.ModelSerializer):
     juice_name = serializers.CharField(source='juice.name', read_only=True)
-    juice_image = serializers.ImageField(source='juice.image', read_only=True)
+    juice_image = serializers.SerializerMethodField()
     subtotal = serializers.SerializerMethodField()
 
     class Meta:
@@ -19,6 +19,17 @@ class CartItemSerializer(serializers.ModelSerializer):
             'price_at_added',
             'subtotal'
         ]
+    
+    def get_juice_image(self, obj):
+        if obj.juice and obj.juice.image:
+            # Get the image name/path
+            image_path = str(obj.juice.image)
+            # Remove 'media/' prefix if present
+            if image_path.startswith('media/'):
+                image_path = image_path.replace('media/', '', 1)
+            # Return proper Cloudinary URL
+            return f"https://res.cloudinary.com/dxizjczfh/image/upload/{image_path}"
+        return None
 
     def get_subtotal(self, obj):
         return obj.price_at_added * obj.quantity

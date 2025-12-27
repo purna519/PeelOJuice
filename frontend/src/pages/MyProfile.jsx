@@ -126,7 +126,7 @@ export default function MyProfile() {
                   {profile.full_name || 'User'}
                 </h2>
               )}
-              <p className="text-gray-500 text-sm">Member since {new Date(profile.date_joined).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</p>
+              <p className="text-gray-500 text-sm">Member since {new Date(profile.created_at).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</p>
             </div>
 
             {/* Action Buttons */}

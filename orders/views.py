@@ -73,13 +73,17 @@ class CheckoutAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+        # Calculate delivery fee (free if subtotal >= 99, otherwise 20)
+        # This matches the cart serializer logic to ensure payment amount consistency
+        delivery_fee_base = Decimal('0.00') if food_subtotal >= Decimal('99.00') else Decimal('20.00')
+
         # Create order
         try:
             order = Order.objects.create(
                 user=user,
                 branch=branch,
                 food_subtotal=food_subtotal,
-                delivery_fee_base=40,
+                delivery_fee_base=delivery_fee_base,
                 platform_fee=10,
                 discount=discount
             )
@@ -144,14 +148,16 @@ class CheckoutAPIView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-        # Clear cart
-        try:
-            cart_items.delete()
-            cart.applied_coupon = None
-            cart.save()
-            print(f"[SUCCESS] Cart cleared")
-        except Exception as e:
-            print(f"[WARNING] Cart clearing failed: {str(e)}")
+        # Clear cart only for COD orders
+        # For online payments, cart will be cleared after successful payment verification
+        if payment_method == 'cod':
+            try:
+                cart_items.delete()
+                cart.applied_coupon = None
+                cart.save()
+                print(f"[SUCCESS] Cart cleared for COD order")
+            except Exception as e:
+                print(f"[WARNING] Cart clearing failed: {str(e)}")
 
         # Send order confirmation email (non-critical)
         try:

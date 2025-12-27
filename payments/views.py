@@ -182,6 +182,17 @@ class VerifyRazorpayPaymentAPIView(APIView):
             # Update order status to confirmed after successful payment
             payment.order.status = 'confirmed'
             payment.order.save()
+            
+            # Clear cart after successful online payment
+            # This ensures cart is only cleared when payment actually succeeds
+            from cart.models import Cart, CartItem
+            try:
+                cart = Cart.objects.get(user=request.user)
+                CartItem.objects.filter(cart=cart).delete()
+                cart.applied_coupon = None
+                cart.save()
+            except Cart.DoesNotExist:
+                pass  # Cart already cleared or doesn't exist
 
             return Response(
                 {
