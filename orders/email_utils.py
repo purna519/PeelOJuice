@@ -6,14 +6,17 @@ from django.utils.html import strip_tags
 
 def send_order_confirmation_email(order, user):
     """
-    Send order confirmation email to customer
+    Send order confirmation email to customer using Brevo API
     """
-    subject = f'Order Confirmation - {order.order_number} | PeelOJuice'
+    subject = f'Order Confirmation - #{order.order_number} | PeelOJuice'
     
     # Get payment method display
     payment_method = 'Cash on Delivery'
     if hasattr(order, 'payment'):
         payment_method = order.payment.get_method_display()
+    
+    # Format amounts with proper 2 decimal places
+    total_amount_formatted = f"₹{float(order.total_amount):.2f}"
     
     # Create HTML email content
     html_message = f"""
@@ -52,12 +55,12 @@ def send_order_confirmation_email(order, user):
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                         <div>
                             <p style="color: #6b7280; margin: 0; font-size: 14px;">Order Number</p>
-                            <p class="order-id" style="margin: 5px 0 0 0;">{order.order_number}</p>
+                            <p class="order-id" style="margin: 5px 0 0 0;">#{order.order_number}</p>
                         </div>
                         <span style="background: #dbeafe; color: #1e40af; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 14px;">Confirmed</span>
                     </div>
                     <p style="color: #6b7280; margin: 10px 0; font-size: 14px;">
-                        Placed on {order.created_at.strftime('%B %d, %Y at %I:%M %p')}</p>
+                        Placed on {order.created_at.strftime('%B %d, %Y at %I:%M %p')}
                     </p>
                     
                     <div style="margin-top: 20px;">
@@ -75,7 +78,7 @@ def send_order_confirmation_email(order, user):
                         </div>
                         <div class="detail-row" style="border: none; padding-top: 15px;">
                             <span class="label" style="font-size: 18px;">Total Amount</span>
-                            <span class="total">₹{order.total_amount}</span>
+                            <span class="total">{total_amount_formatted}</span>
                         </div>
                     </div>
                 </div>
@@ -120,10 +123,10 @@ def send_order_confirmation_email(order, user):
     Thank you for your order! We've received your order and it's being processed.
     
     Order Details:
-    - Order Number: {order.order_number}
+    - Order Number: #{order.order_number}
     - Payment Method: {payment_method}
     - Status: Confirmed
-    - Total Amount: ₹{order.total_amount}
+    - Total Amount: {total_amount_formatted}
     - Placed on: {order.created_at.strftime('%B %d, %Y at %I:%M %p')}
     
     Your delicious juices will reach you soon!
@@ -135,15 +138,25 @@ def send_order_confirmation_email(order, user):
     """
     
     try:
-        send_mail(
+        # Use Brevo API instead of SMTP
+        from users.email_api import send_email_via_brevo_api
+        
+        success, message = send_email_via_brevo_api(
+            to_email=user.email,
             subject=subject,
-            message=plain_message,
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user.email],
-            html_message=html_message,
-            fail_silently=False,
+            text_content=plain_message,
+            html_content=html_message
         )
-        return True
+        
+        if success:
+            print(f"[SUCCESS] Order confirmation email sent to {user.email}")
+            return True
+        else:
+            print(f"[ERROR] Failed to send order confirmation email: {message}")
+            return False
+            
     except Exception as e:
-        print(f"Failed to send order confirmation email: {e}")
+        print(f"[ERROR] Exception sending order confirmation email: {e}")
+        import traceback
+        traceback.print_exc()
         return False
