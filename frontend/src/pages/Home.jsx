@@ -63,7 +63,6 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 bg-[#FFF9F0] px-4 py-2 rounded-2xl mb-6 border border-[#FF6B35]/10">
-              <Star className="w-4 h-4 text-[#FF6B35]" fill="#FF6B35" />
               <span className="text-[10px] font-black text-[#FF6B35] uppercase tracking-[0.2em]">Premium Quality Guaranteed</span>
             </div>
             
@@ -72,8 +71,9 @@ export default function Home() {
               <span className="text-[#6B9E3E]">Wellness.</span>
             </h1>
             
-            <p className="text-gray-400 font-bold text-lg md:text-xl uppercase tracking-[0.2em] mb-12 max-w-2xl mx-auto">
-              Sip Fresh.... Feel Refresh.
+            <p className="font-bold text-lg md:text-xl uppercase tracking-[0.2em] mb-12 max-w-2xl mx-auto">
+              <span className="text-[#6B9E3E]">Sip Fresh...</span>
+              <span className="text-[#4A1E6D]"> Feel Refresh...</span>
             </p>
 
             {/* Premium Search Bar */}
@@ -150,7 +150,7 @@ export default function Home() {
             <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-md mb-8">
               <Leaf className="w-7 h-7 text-[#6B9E3E]" />
             </div>
-            <h3 className="text-2xl font-[800] text-[#1A1A1A] tracking-tighter uppercase mb-4">100% Organic</h3>
+            <h3 className="text-2xl font-[800] text-[#1A1A1A] tracking-tighter uppercase mb-4">100% Pure</h3>
             <p className="text-gray-400 font-bold text-xs uppercase tracking-[0.2em] leading-relaxed">
               Never processed. Never pasteurized. Straight from nature to your bottle.
             </p>

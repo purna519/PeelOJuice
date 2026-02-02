@@ -16,17 +16,20 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-12 h-12 bg-[#FF6B35] rounded-2xl flex items-center justify-center shadow-[0_8px_30px_rgba(255,107,53,0.3)] transform group-hover:rotate-12 transition-transform">
-               <Star className="w-7 h-7 text-white" fill="currentColor" />
-            </div>
+          <Link to="/" className="flex items-center group">
             <div className="flex flex-col">
-              <div className="flex items-center">
-                <span className="text-2xl font-black tracking-tighter uppercase text-[#4A1E6D]">Peel</span>
-                <span className="text-2xl font-black tracking-tighter uppercase text-[#FF6B35] px-0.5">'O'</span>
-                <span className="text-2xl font-black tracking-tighter uppercase text-[#6B9E3E]">Juice</span>
+              <div className="flex items-center gap-1">
+                <span className="text-3xl font-black tracking-tighter uppercase text-[#4A1E6D]">Peel</span>
+                <div className="relative">
+                  <span className="text-3xl font-black tracking-tighter uppercase text-[#FF6B35]">'O'</span>
+                  {/* Caption starts from O and fits to end of Juice */}
+                  <span className="absolute left-0 top-full text-[9px] font-black uppercase tracking-tight whitespace-nowrap">
+                    <span className="text-[#6B9E3E]">Sip Fresh....</span>
+                    <span className="text-[#4A1E6D]"> Feel Refresh.</span>
+                  </span>
+                </div>
+                <span className="text-3xl font-black tracking-tighter uppercase text-[#6B9E3E]">Juice</span>
               </div>
-              <span className="text-[8px] font-black text-gray-400 uppercase tracking-[0.2em] leading-none mt-1">Sip Fresh.... Feel Refresh</span>
             </div>
           </Link>
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, Star, Zap, User } from 'lucide-react';
+import { Mail, Lock, Zap, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
@@ -33,15 +33,20 @@ export default function Login() {
       <div className="w-full max-w-[480px]">
         {/* Logo Section */}
         <div className="text-center mb-12">
-           <div className="inline-flex items-center gap-4 mb-6 group cursor-pointer" onClick={() => navigate('/')}>
-             <div className="w-16 h-16 bg-[#FF6B35] rounded-3xl flex items-center justify-center shadow-2xl transform transition-transform group-hover:rotate-12">
-                <Star className="w-10 h-10 text-white" fill="currentColor" />
-             </div>
+           <div className="inline-flex items-center mb-6 group cursor-pointer" onClick={() => navigate('/')}>
              <div className="text-left">
-                <h1 className="text-3xl font-black text-[#1A1A1A] tracking-tighter uppercase leading-none">
-                  Peel<span className="text-[#FF6B35]">O</span>Juice
-                </h1>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-1">Nature's purest energy</p>
+                <div className="flex items-center gap-1">
+                  <span className="text-4xl font-black tracking-tighter uppercase text-[#4A1E6D]">Peel</span>
+                  <div className="relative">
+                    <span className="text-4xl font-black tracking-tighter uppercase text-[#FF6B35]">'O'</span>
+                    {/* Caption starts from O */}
+                    <span className="absolute left-0 top-full text-[11px] font-black uppercase tracking-tight whitespace-nowrap mt-0.5">
+                      <span className="text-[#6B9E3E]">Sip Fresh....</span>
+                      <span className="text-[#4A1E6D]"> Feel Refresh.</span>
+                    </span>
+                  </div>
+                  <span className="text-4xl font-black tracking-tighter uppercase text-[#6B9E3E]">Juice</span>
+                </div>
              </div>
            </div>
         </div>

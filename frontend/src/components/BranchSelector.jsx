@@ -52,22 +52,22 @@ export default function BranchSelector() {
       <button
         onClick={() => canSwitchBranch && setIsOpen(!isOpen)}
         disabled={!canSwitchBranch}
-        className={`flex items-center gap-2 transition px-4 py-2.5 rounded-2xl border border-[#F0F0F0] bg-[#F9F9F9] hover:bg-white transition-all ${
+        className={`flex items-center gap-2 transition px-5 py-1.5 rounded-2xl border border-[#F0F0F0] bg-[#F9F9F9] hover:bg-white transition-all ${
           canSwitchBranch 
             ? 'cursor-pointer' 
             : 'opacity-50 cursor-not-allowed'
         }`}
       >
-        <div className={`w-6 h-6 rounded-lg flex items-center justify-center shadow-sm ${hasCartItems ? 'text-gray-400' : 'text-[#FF6B35]'} bg-white border border-[#F0F0F0]`}>
+        <div className={`w-5 h-5 rounded-lg flex items-center justify-center shadow-sm ${hasCartItems ? 'text-gray-400' : 'text-[#FF6B35]'} bg-white border border-[#F0F0F0]`}>
           {hasCartItems ? (
-            <Lock className="w-3.5 h-3.5" />
+            <Lock className="w-3 h-3" />
           ) : (
-            <MapPin className="w-3.5 h-3.5" />
+            <MapPin className="w-3 h-3" />
           )}
         </div>
         <div className="text-left hidden lg:block">
-           <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Store Branch</p>
-           <span className="text-[10px] font-black text-[#1A1A1A] uppercase tracking-tight">{selectedBranch ? selectedBranch.name : 'Select Branch'}</span>
+           <p className="text-[7px] font-black text-gray-400 uppercase tracking-widest leading-none mb-0.5">Store Branch</p>
+           <span className="text-[9px] font-black text-[#1A1A1A] uppercase tracking-tight">{selectedBranch ? selectedBranch.name : 'Select Branch'}</span>
         </div>
         {canSwitchBranch && (
           <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />

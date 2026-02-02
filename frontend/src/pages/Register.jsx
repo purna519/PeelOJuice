@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, User, Phone, Star, Zap, ChevronRight } from 'lucide-react';
+import { Mail, Lock, User, Phone, Zap, ChevronRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function Register() {
@@ -16,7 +16,6 @@ export default function Register() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [phoneOTP, setPhoneOTP] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,13 +28,17 @@ export default function Register() {
       setError('Passwords do not match');
       return;
     }
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return;
+    }
     setLoading(true);
     try {
-      const response = await register(formData);
-      if (response.data.phone_otp) setPhoneOTP(response.data.phone_otp);
-      navigate('/verify-email', { state: { email: formData.email, phone: formData.phone_number } });
+      await register(formData);
+      // Phone is auto-verified, only need email verification
+      navigate('/verify-email', { state: { email: formData.email } });
     } catch (err) {
-      setError(err.response?.data?.message || 'Joining failed. Please check your data.');
+      setError(err.response?.data?.message || err.response?.data?.errors?.email?.[0] || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -46,15 +49,20 @@ export default function Register() {
       <div className="w-full max-w-[540px]">
         {/* Logo Section */}
         <div className="text-center mb-12">
-           <div className="inline-flex items-center gap-4 mb-6 group cursor-pointer" onClick={() => navigate('/')}>
-             <div className="w-16 h-16 bg-[#FF6B35] rounded-3xl flex items-center justify-center shadow-2xl transform transition-transform group-hover:rotate-12">
-                <Star className="w-10 h-10 text-white" fill="currentColor" />
-             </div>
+           <div className="inline-flex items-center mb-6 group cursor-pointer" onClick={() => navigate('/')}>
              <div className="text-left">
-                <h1 className="text-3xl font-black text-[#1A1A1A] tracking-tighter uppercase leading-none">
-                  Peel<span className="text-[#FF6B35]">O</span>Juice
-                </h1>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-1">Nature's purest energy</p>
+                <div className="flex items-center gap-1">
+                  <span className="text-4xl font-black tracking-tighter uppercase text-[#4A1E6D]">Peel</span>
+                  <div className="relative">
+                    <span className="text-4xl font-black tracking-tighter uppercase text-[#FF6B35]">'O'</span>
+                    {/* Caption starts from O */}
+                    <span className="absolute left-0 top-full text-[11px] font-black uppercase tracking-tight whitespace-nowrap mt-0.5">
+                      <span className="text-[#6B9E3E]">Sip Fresh....</span>
+                      <span className="text-[#4A1E6D]"> Feel Refresh.</span>
+                    </span>
+                  </div>
+                  <span className="text-4xl font-black tracking-tighter uppercase text-[#6B9E3E]">Juice</span>
+                </div>
              </div>
            </div>
         </div>
@@ -67,18 +75,8 @@ export default function Register() {
           </div>
 
           {error && (
-            <div className="bg-[#FFF5F8] border border-[#FED7E2] text-red-500 px-6 py-4 rounded-2xl mb-8 text-[10px] font-black uppercase tracking-widest text-center animate-in fade-in slide-in-from-top-2">
-              {error}
-            </div>
-          )}
-
-          {phoneOTP && (
-            <div className="bg-[#FFF9F0] border border-[#FEEBC8] p-6 rounded-[24px] mb-8 flex items-center justify-between">
-              <div>
-                <p className="text-[8px] font-black text-[#FF6B35] uppercase tracking-widest mb-1">Dev Environment OTP</p>
-                <p className="text-2xl font-black text-[#1A1A1A] tracking-tighter">{phoneOTP}</p>
-              </div>
-              <Zap className="w-8 h-8 text-[#FF6B35] opacity-20" />
+            <div className="bg-red-50 border-2 border-red-200 text-red-600 px-6 py-4 rounded-2xl mb-8 text-sm font-semibold text-center animate-in fade-in slide-in-from-top-2">
+              ⚠️ {error}
             </div>
           )}
 

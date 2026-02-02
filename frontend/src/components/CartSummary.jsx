@@ -14,7 +14,7 @@ export default function CartSummary({ cart, hasAddresses = true }) {
   const grandTotal = Number(cart.grand_total) || 0;
 
   return (
-    <div className="bg-white rounded-[32px] border border-[#F0F0F0] shadow-[0_15px_30px_rgba(0,0,0,0.05)] p-8 sticky top-4">
+    <div className="bg-white rounded-[32px] border border-[#F0F0F0] shadow-[0_15px_30px_rgba(0,0,0,0.05)] p-8">
       <div className="flex items-center gap-3 mb-8">
         <div className="w-1 h-6 bg-[#FF6B35] rounded-full"></div>
         <h2 className="text-xl font-black text-[#1A1A1A] tracking-tighter uppercase">Bill Summary</h2>
@@ -51,31 +51,31 @@ export default function CartSummary({ cart, hasAddresses = true }) {
         </div>
       )}
 
-      <div className="space-y-4 mb-20 text-sm">
-        <div className="flex justify-between items-center">
-          <span className="font-bold text-gray-400 uppercase tracking-widest text-[10px]">Item Total</span>
-          <span className="font-black text-[#1A1A1A]">₹{foodSubtotal.toFixed(0)}</span>
+      <div className="space-y-4 mb-8 text-sm">
+        <div className="flex justify-between items-start gap-4">
+          <span className="font-bold text-gray-400 uppercase tracking-widest text-[10px] flex-shrink-0 pt-0.5">Item Total</span>
+          <span className="font-black text-[#1A1A1A] flex-shrink-0 text-right">₹{foodSubtotal.toFixed(0)}</span>
         </div>
         
         {couponDiscount > 0 && (
-          <div className="flex justify-between items-center text-green-600">
-            <span className="font-bold uppercase tracking-widest text-[10px]">Offer Applied</span>
-            <span className="font-black">-₹{couponDiscount.toFixed(0)}</span>
+          <div className="flex justify-between items-start gap-4 text-green-600">
+            <span className="font-bold uppercase tracking-widest text-[10px] flex-shrink-0 pt-0.5">Offer Applied</span>
+            <span className="font-black flex-shrink-0 text-right">-₹{couponDiscount.toFixed(0)}</span>
           </div>
         )}
         
-        <div className="flex justify-between items-center">
-          <span className="font-bold text-gray-400 uppercase tracking-widest text-[10px]">Handling Fee</span>
-          <span className="font-black text-[#1A1A1A]">₹{(foodGST + platformFee).toFixed(0)}</span>
+        <div className="flex justify-between items-start gap-4">
+          <span className="font-bold text-gray-400 uppercase tracking-widest text-[10px] flex-shrink-0 pt-0.5">Handling Fee</span>
+          <span className="font-black text-[#1A1A1A] flex-shrink-0 text-right">₹{(foodGST + platformFee).toFixed(0)}</span>
         </div>
         
-        <div className="flex justify-between items-center">
-          <span className="font-bold text-gray-400 uppercase tracking-widest text-[10px]">Delivery Partner Fee</span>
-          <div className="flex items-center gap-2">
+        <div className="flex justify-between items-start gap-4">
+          <span className="font-bold text-gray-400 uppercase tracking-widest text-[10px] flex-shrink-0 pt-0.5 leading-tight">Delivery Partner Fee</span>
+          <div className="flex items-center gap-2 flex-shrink-0 justify-end">
             {cart.free_delivery ? (
               <>
-                <span className="line-through text-gray-300 font-bold">₹{cart.original_delivery_fee}</span>
-                <span className="font-black text-green-600">FREE</span>
+                <span className="line-through text-gray-300 font-bold text-xs">₹{cart.original_delivery_fee}</span>
+                <span className="font-black text-green-600 text-xs">FREE</span>
               </>
             ) : (
               <span className="font-black text-[#1A1A1A]">₹{(deliveryFee + deliveryGST).toFixed(0)}</span>
@@ -84,7 +84,7 @@ export default function CartSummary({ cart, hasAddresses = true }) {
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-8 right-8">
+      <div className="border-t border-[#F0F0F0] pt-6 pb-6">
         <div className="flex justify-between items-end mb-6">
           <div>
              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Total Payable</p>
