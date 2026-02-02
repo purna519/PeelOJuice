@@ -34,14 +34,16 @@ class RegisterAPIView(APIView):
         if serializer.is_valid():
 
             user = serializer.save()
+            
+            # Auto-verify phone number (no OTP needed)
+            user.is_phone_verified = True
+            user.save()
 
-            # generate_email_otp now returns (otp, email_sent_successfully)
+            # Generate only email OTP
             email_otp, email_sent = generate_email_otp(user)
-            phone_otp = generate_phone_otp(user)
 
             response_data = {
                 "message": "User registered successfully. Please check your email for OTP.",
-                "phone_otp": phone_otp  # DEV ONLY - Remove in production
             }
             
             # Only include email_otp if email sending failed (for debugging)
@@ -90,12 +92,8 @@ class LoginAPIView(APIView):
                 {"message": "Please verify your email before login"},
                 status=status.HTTP_403_FORBIDDEN
             )
-
-        if not user.is_phone_verified:
-            return Response(
-                {"message": "Please verify your phone before login"},
-                status=status.HTTP_403_FORBIDDEN
-            )
+        
+        # Phone verification removed - auto-verified during registration
         
         refresh = RefreshToken.for_user(user)
         
