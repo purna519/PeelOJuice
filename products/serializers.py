@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Juice, Branch
+from django.conf import settings
 
 class BranchSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,13 +24,15 @@ class JuiceSerializer(serializers.ModelSerializer):
     
     def get_image(self, obj):
         if obj.image:
+            # Get the cloud name from settings
+            cloud_name = settings.CLOUDINARY_STORAGE.get('CLOUD_NAME')
             # Get the image name/path
             image_path = str(obj.image)
             # Remove 'media/' prefix if present  
             if image_path.startswith('media/'):
                 image_path = image_path.replace('media/', '', 1)
-            # Return proper Cloudinary URL
-            return f"https://res.cloudinary.com/dxizjczfh/image/upload/{image_path}"
+            # Return proper Cloudinary URL with dynamic cloud name
+            return f"https://res.cloudinary.com/{cloud_name}/image/upload/{image_path}"
         return None
 
     class Meta:

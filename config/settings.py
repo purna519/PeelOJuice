@@ -270,6 +270,14 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': config('CLOUDINARY_API_SECRET'),
 }
 
+# Initialize Cloudinary SDK (CRITICAL for uploads to work!)
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+    secure=True
+)
+
 # Media URL (Cloudinary handles media files via STORAGES setting above)
 MEDIA_URL = '/media/'
 
