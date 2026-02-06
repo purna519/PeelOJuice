@@ -24,15 +24,21 @@ class JuiceSerializer(serializers.ModelSerializer):
     
     def get_image(self, obj):
         if obj.image:
-            # Get the cloud name from settings
-            cloud_name = settings.CLOUDINARY_STORAGE.get('CLOUD_NAME')
-            # Get the image name/path
-            image_path = str(obj.image)
-            # Remove 'media/' prefix if present  
-            if image_path.startswith('media/'):
-                image_path = image_path.replace('media/', '', 1)
-            # Return proper Cloudinary URL with dynamic cloud name
-            return f"https://res.cloudinary.com/{cloud_name}/image/upload/{image_path}"
+            # Use Cloudinary's built-in URL property which includes version numbers
+            # and correct public_id format automatically
+            try:
+                return obj.image.url
+            except Exception:
+                # Fallback: If image.url fails, try manual construction
+                cloud_name = settings.CLOUDINARY_STORAGE.get('CLOUD_NAME')
+                image_path = str(obj.image)
+                # Remove 'media/' or 'juices/' prefix if present  
+                if image_path.startswith('media/'):
+                    image_path = image_path.replace('media/', '', 1)
+                if image_path.startswith('juices/'):
+                    image_path = image_path.replace('juices/', '', 1)
+                # Return Cloudinary URL
+                return f"https://res.cloudinary.com/{cloud_name}/image/upload/{image_path}"
         return None
 
     class Meta:
