@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Minus, Plus, Droplets, Leaf, ShieldCheck, Tag, ShoppingCart } from 'lucide-react';
+import { ArrowLeft, Minus, Plus, Droplets, Leaf, ShieldCheck, Tag, ShoppingCart, Star } from 'lucide-react';
 import api, { BASE_URL } from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
